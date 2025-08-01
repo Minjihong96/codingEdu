@@ -1,0 +1,83 @@
+package web.com.springweb.seungwoo.a1.test;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import ch.qos.logback.core.net.SyslogOutputStream;
+import web.com.springweb.seungwoo.a1.vo.CounselRequest;
+
+public class ControllerTestsss2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		// int cnt = 1; 초기값 설정..
+		// cnt<=10  반복의 조건.. 10이하
+		// cnt++  증감단위... cnt+=3
+		for(int cnt=5;cnt<=20;cnt+=3) {
+			System.out.println("카운트:"+cnt);
+		}
+		// 
+		for(int cnt=100;cnt>=20;cnt-=2) {
+			System.out.println("카운트:"+cnt);
+		}	
+		// cnt 초기 데이터 10부터 시작해서,  반복은 50이하,  증가단위로 5씩 증가..
+		for(int cnt=10;cnt<=50;cnt+=5) {
+			System.out.print(cnt+",");
+		}
+		System.out.println();
+		
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+ 
+
+
+
+
+
+
+
+
+「私と恋愛する練習をしませんか？」と書かれた一枚の紙が、彼の机の上に置かれていた。
+僕は驚きと戸惑いを隠せなかった。誰が、何のためにこんなことを？ 彼の心は疑問でいっぱいになった。
+すぐその紙を手に取り、早くトイレに行きその紙を再び確認した。そこには、小さい文字で「放課後、教室で待ってください。もししたくないなら、帰宅も構いません」と書かれていた。
+彼はその言葉に戸惑いながらも、放課後の教室へ向かうことを決意した。彼の心には、期待と不安が入り混じっていた。
+
+
+  
+  
+*/
+
+

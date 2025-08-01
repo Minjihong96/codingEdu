@@ -1,0 +1,18 @@
+package web.com.springweb.jihong.jh_service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import web.com.springweb.jihong.jh_dao.ClassRecordDao;
+import web.com.springweb.jihong.jh_vo.ClassRecord;
+
+@Service
+public class ClassRecordService {
+	@Autowired(required=false)
+	private ClassRecordDao dao;
+	
+	public String insertClassecord(ClassRecord ins) {
+		return dao.insertClassRecord(ins)>0?"등록성공":"등록실패";
+	}
+	
+}

@@ -1,0 +1,22 @@
+package web.com.springweb.gichan.gi03_dao;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import web.com.springweb.gichan.gi04_vo.JoinMem;
+
+@Mapper
+public interface Join_MembershipDao {
+	@Insert("INSERT INTO JOIN_MEMBERSHIP(MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE, "
+			+ "MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE) "
+			+ "VALUES(PRID_SEQ.NEXTVAL, #{memId}, #{memPwd}, #{memName}, #{memPhone}, #{memEmail}, #{memAddress}, #{memBirthday}, #{accountType})")
+	int insertJoinMem(JoinMem ins);
+	
+	@Select("SELECT COUNT(*) FROM JOIN_MEMBERSHIP WHERE MEM_ID = #{memId}")
+	int checkId(String memId);
+	
+	@Select("SELECT * FROM JOIN_MEMBERSHIP WHERE MEM_ID = #{memId} AND MEM_PWD = #{memPwd}")
+	JoinMem selectMember(JoinMem login);
+}

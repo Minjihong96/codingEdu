@@ -1,0 +1,231 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="java.util.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="path" value="${pageContext.request.contextPath}" />
+<fmt:requestEncoding value="UTF-8" />
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>상담 신청</title>
+  <link rel="stylesheet" href="${path}/com/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/theme.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
+  <link rel="shortcut icon" href="assets/img/favicons/favicon.ico">
+  <meta name="theme-color" content="#ffffff">
+  <style>
+    td { text-align: center; }
+    .valid-msg { font-size: 0.9rem; color: green; }
+    .error-msg { font-size: 0.9rem; color: red; }
+  </style>
+</head>
+<body>
+
+<main class="main" id="top">
+
+  <section class="bg-primary py-2 d-none d-sm-block">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-auto d-none d-lg-block">
+          <p class="my-2 fs--1"><i class="fas fa-map-marker-alt me-3"></i>1600 Amphitheatre Parkway, CA 94043</p>
+        </div>
+        <div class="col-auto ms-md-auto order-md-2 d-none d-sm-block">
+          <ul class="list-unstyled list-inline my-2">
+            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f text-900"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest text-900"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter text-900"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="fab fa-instagram text-900"></i></a></li>
+          </ul>
+        </div>
+        <div class="col-auto">
+          <p class="my-2 fs--1"><i class="fas fa-envelope me-3"></i><a href="mailto:vctung@outlook.com">vctung@outlook.com</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand" href="index.html"><img src="assets/img/gallery/logo-n.png" height="45" alt="logo" /></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="web-development.html">Web Development</a></li>
+          <li class="nav-item"><a class="nav-link active" href="user-research.html">User Research</a></li>
+        </ul>
+        <a class="btn btn-primary ms-3" href="#!">Sign Up</a>
+      </div>
+    </div>
+  </nav>
+  
+  
+  
+  <div class="container">
+	<form id="frm01" class="form"> <%-- post 요청 body ename=@@&job=@@ --%>
+  	<nav class="navbar navbar-expand-lg navbar-light sticky-top py-3">
+	    <input placeholder="학생명" name="classContents" value=""  class="form-control mr-sm-2" />
+	    <button class="btn btn-info" type="submit">검색</button>
+	    
+ 	</nav>
+	</form>
+	
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+   <table class="table table-hover table-striped">
+    <col width="15%">
+    <col width="15%">
+    <col width="15%">
+    <col width="15%">
+    <col width="25%">
+    <col width="15%">
+    <thead>
+        <tr class="table-success text-center">
+            
+            <th>학생 ID</th>
+            <th>수업 날짜</th>
+            <th>수업 내용</th>
+            <th>과제</th>
+            <th>잔여 수업 회차</th>
+            <th>결제</th>
+            <th>기타</th>
+        </tr>
+    </thead>
+    <tbody>
+        <c:forEach var="cr" items="${classRecord}">
+            <tr>
+                <td>${cr.memPrid}</td>
+                <td>${cr.classDate}</td>
+                <td>${cr.classContents}</td>
+                <td>${cr.subject}</td>
+                <td>${cr.remainClass}</td>               
+                <td>${cr.payment}</td>
+                <td>${cr.etc}</td>  
+            </tr>
+        </c:forEach>
+    </tbody>
+</table>       
+</div>
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		$("#regBtn").click(function(){
+			location.href="customerInsert"
+		})
+	});
+	function goDetail(id){
+		location.href="/customerDetail?customerId="+id
+	}	
+</script>
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <section class="pb-11 pt-7 bg-600">
+    
+  </section>
+
+</main>
+
+<!-- 스크립트 -->
+<script src="${path}/com/jquery-3.7.1.js"></script>
+<script src="${path}/com/bootstrap.min.js"></script>
+<script src="vendors/@popperjs/popper.min.js"></script>
+<script src="vendors/bootstrap/bootstrap.min.js"></script>
+<script src="vendors/fontawesome/all.min.js"></script>
+<script src="assets/js/theme.js"></script>
+
+<!-- 상담 신청 fetch 처리 -->
+<script>
+
+</script>
+
+
+<section class="bg-secondary">
+
+        <div class="container">
+    <div class="row">
+        <!-- 회사 정보 -->
+        <div class="col-12 col-sm-12 col-lg-6 mb-4 order-0 order-sm-0">
+            <a class="text-decoration-none" href="#"><img src="assets/img/gallery/footer-logo.png" height="51" alt="로고" /></a>
+            <p class="text-light my-4">
+                <i class="fas fa-map-marker-alt me-3"></i>
+                <span class="text-light">1500 Treat Ave, Suite 200 &nbsp;</span>
+                <a class="text-light" href="tel:+604-680-9785">+604-680-9785</a><br />
+                샌프란시스코, CA 94110
+            </p>
+            <p class="text-light">
+                <i class="fas fa-envelope me-3"></i>
+                <a class="text-light" href="mailto:vctung@outlook.com">vctung@outlook.com</a>
+            </p>
+            <p class="text-light">
+                <i class="fas fa-phone-alt me-3"></i>
+                <a class="text-light" href="tel:1-800-800-2299">1-800-800-2299 (고객 지원)</a>
+            </p>
+        </div>
+
+        <!-- 커뮤니티 -->
+        <div class="col-6 col-sm-4 col-lg-2 mb-3 order-2 order-sm-1">
+            <h5 class="lh-lg fw-bold mb-4 text-light font-sans-serif">커뮤니티</h5>
+            <ul class="list-unstyled mb-md-4 mb-lg-0">
+                <li class="lh-lg"><a class="text-200" href="#!">학습자</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">파트너</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">개발자</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">베타 테스터</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">번역가</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">블로그</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">기술 블로그</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">강의 센터</a></li>
+            </ul>
+        </div>
+
+        <!-- 정보 -->
+        <div class="col-6 col-sm-4 col-lg-2 mb-3 order-3 order-sm-2">
+            <h5 class="lh-lg fw-bold text-light mb-4 font-sans-serif">정보</h5>
+            <ul class="list-unstyled mb-md-4 mb-lg-0">
+                <li class="lh-lg"><a class="text-200" href="#!">회사 소개</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">가격 안내</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">블로그</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">채용 정보</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">문의하기</a></li>
+            </ul>
+        </div>
+
+        <!-- 추가 정보 -->
+        <div class="col-6 col-sm-4 col-lg-2 mb-3 order-3 order-sm-2">
+            <h5 class="lh-lg fw-bold text-light mb-4 font-sans-serif">더 보기</h5>
+            <ul class="list-unstyled mb-md-4 mb-lg-0">
+                <li class="lh-lg"><a class="text-200" href="#!">보도 자료</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">투자자</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">이용 약관</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">개인정보 보호</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">도움말</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">접근성</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">문의하기</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">기사</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">디렉토리</a></li>
+                <li class="lh-lg"><a class="text-200" href="#!">제휴 프로그램</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <!-- end of .container-->
+
+      </section>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+</body>
+</html>

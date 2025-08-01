@@ -1,0 +1,19 @@
+package web.com.springweb.jihong.jh_controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import web.com.springweb.jihong.jh_service.StudentRecordService;
+
+@Controller
+public class StudentRecordController {
+	@Autowired(required = false)
+	private StudentRecordService service;
+	
+	// http://localhost:7070/studentRecord
+		@RequestMapping("studentRecord")
+		public String studentRecord() {
+			return "\\WEB-INF\\views\\jihong\\studentRecord.jsp";
+		}
+}

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>상담 신청</title>
+
+  <!-- 스타일시트 -->
+  <link rel="stylesheet" href="com/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/css/theme.css" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png" />
+  <link rel="shortcut icon" href="assets/img/favicons/favicon.ico" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <style>
+    td { text-align: center; }
+    .valid-msg { font-size: 0.9rem; color: green; }
+    .error-msg { font-size: 0.9rem; color: red; }
+  </style>
+</head>
+<body>
+
+<main class="main" id="top">
+  <!-- 상단 바 -->
+  <section class="bg-primary py-2 d-none d-sm-block">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-auto d-none d-lg-block">
+          <p class="my-2 fs--1"><i class="fas fa-map-marker-alt me-3"></i>1600 Amphitheatre Parkway, CA 94043</p>
+        </div>
+        <div class="col-sm-auto ms-md-auto order-md-2 d-none d-sm-block">
+          <ul class="list-unstyled list-inline my-2">
+            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f text-900"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest text-900"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter text-900"></i></a></li>
+            <li class="list-inline-item"><a href="#"><i class="fab fa-instagram text-900"></i></a></li>
+          </ul>
+        </div>
+        <div class="col-auto">
+          <p class="my-2 fs--1"><i class="fas fa-envelope me-3"></i><a href="mailto:vctung@outlook.com">vctung@outlook.com</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 네비게이션 바 -->
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top py-3">
+    <div class="container">
+      <a class="navbar-brand" href="index.html"><img src="assets/img/gallery/logo-n.png" height="45" alt="logo" /></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+          <li class="nav-item"><a class="nav-link" href="web-development.html">Web Development</a></li>
+          <li class="nav-item"><a class="nav-link active" href="user-research.html">User Research</a></li>
+        </ul>
+        <a class="btn btn-primary ms-3" href="#!">Sign Up</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 검색 폼 -->
+  <div class="container my-4">
+    <form id="frm01" class="form d-flex align-items-center gap-2">
+      <input type="text" class="form-control" name="name" placeholder="이름으로 검색" />
+      <button type="button" id="schBtn" class="btn btn-info">검색</button>
+    </form>
+  </div>
+
+  <!-- 상담 테이블 -->
+  <div class="container">
+    <table class="table table-hover table-striped">
+      <colgroup>
+        <col width="15%" />
+        <col width="15%" />
+        <col width="15%" />
+        <col width="15%" />
+        <col width="25%" />
+        <col width="15%" />
+      </colgroup>
+      <thead class="table-success text-center">
+        <tr>
+          <th>이름</th>
+          <th>전화번호</th>
+          <th>상담시간</th>
+          <th>상담내용</th>
+          <th>메시지</th>
+          <th>등록일</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- 푸터 -->
+  <section class="bg-secondary text-light py-5">
+    <div class="container">
+      <!-- footer 내용 생략 가능 -->
+      <p>© 2025 Your Company. All rights reserved.</p>
+    </div>
+  </section>
+</main>
+
+<!-- 스크립트 -->
+<script src="com/jquery-3.7.1.js"></script>
+<script src="vendors/bootstrap/bootstrap.min.js"></script>
+<script src="vendors/fontawesome/all.min.js"></script>
+<script>
+  $(function () {
+    const $form = $("#frm01");
+    const $tbody = $("tbody");
+
+    $form.on("keydown", "input", function (e) {
+      if (e.key === "Enter") e.preventDefault();
+    });
+
+    $("#schBtn").on("click", fetchResults);
+
+    function fetchResults() {
+      $.ajax({
+        url: "getCR",
+        data: $form.serialize(),
+        dataType: "json",
+        success: function (data) {
+          const rows = data.map(cr => `
+            <tr>
+              <td>${cr.name}</td>
+              <td>${cr.phone}</td>
+              <td>${cr.counselingTime}</td>
+              <td>${cr.department}</td>
+              <td>${cr.message}</td>
+              <td>${cr.regDate}</td>
+            </tr>
+          `).join("");
+          $tbody.html(rows);
+        },
+        error: function (err) {
+          console.error("데이터를 불러오는 중 오류 발생:", err);
+          $tbody.html(`<tr><td colspan="6">데이터를 불러오는 데 실패했습니다.</td></tr>`);
+        }
+      });
+    }
+
+    fetchResults(); // 페이지 로딩 시 자동 실행
+  });
+</script>
+</body>
+</html>

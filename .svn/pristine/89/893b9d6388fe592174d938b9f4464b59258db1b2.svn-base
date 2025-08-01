@@ -1,0 +1,16 @@
+package web.com.springweb.a04_mvc.a03_dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import web.com.springweb.a04_mvc.a04_vo.Customers;
+
+@Mapper
+public interface A01_CustomerDao {
+	@Select("SELECT * FROM CUSTOMERS "
+			+ "WHERE CUSTOMER_NAME LIKE #{customerName} "
+			+ "AND CUSTOMER_ADDRESS LIKE #{customerAddress}")
+	List<Customers> customerList(Customers sch); 
+}

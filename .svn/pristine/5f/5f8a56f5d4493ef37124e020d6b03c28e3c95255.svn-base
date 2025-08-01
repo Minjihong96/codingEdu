@@ -1,0 +1,106 @@
+package web.com.springweb.myeoncheol.smc01.a01_java;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+
+import web.com.springweb.myeoncheol.vo.JoinMembership;
+
+
+@Mapper
+public interface InterfaceDao {
+	
+	/*
+   
+     * JoinMem
+    private int memPrid;
+    private String memId;
+    private String memPwd;
+    private String memName;
+    private String memPhone;
+    private String memEmail;
+    private String memAddress;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date memBirthday;
+    private String accountType;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;@return 조회된 Member 객체들의 리스트
+     * 
+     * 
+     */
+	
+	@Select("SELECT * FROM JOIN_MEMBERSHIP WHERE MEM_PRID = #{memPrid}")
+	JoinMembership memberById(@Param("memPrid")int memPird);
+	
+	
+	
+	
+	
+	@Select("SELECT * FROM JOIN_MEMBERSHIP \r\n"
+			+ "			WHERE MEM_NAME LIKE #{memName} \r\n"
+			+ "			AND MEM_ID LIKE #{memId} \r\n"
+			+ " ORDER BY MEM_PRID DESC")
+			List<JoinMembership> getMemberList(JoinMembership sch);
+	/*
+	 * 
+	 * @Select("SELECT * FROM CUSTOMERS "
+			+ "WHERE CUSTOMER_NAME LIKE #{customerName} "
+			+ "AND CUSTOMER_ADDRESS LIKE #{customerAddress} "
+			+ "ORDER BY CUSTOMER_ID DESC")
+	List<Customers> getCustomersList(Customers sch);
+	
+	MEM_PRID        NUMBER(8,0) PRIMARY KEY,
+    MEM_ID          VARCHAR2(50) NOT NULL UNIQUE,
+    MEM_PWD         VARCHAR2(50) NOT NULL,
+    MEM_NAME		VARCHAR2(50) NOT NULL,
+    MEM_PHONE       VARCHAR2(50) NOT NULL,
+    MEM_EMAIL       VARCHAR2(100) NOT NULL,
+    MEM_ADDRESS     VARCHAR2(100) NOT NULL,
+    MEM_BIRTHDAY    DATE NOT NULL,
+    ACCOUNT_TYPE    VARCHAR2(20) DEFAULT 'student' CHECK (ACCOUNT_TYPE IN ('admin', 'student', 'teacher', 'etc')),
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	private int memPrid;
+    private String memId;
+    private String memPwd;
+    private String memName;
+    private String memPhone;
+    private String memEmail;
+    private String memAddress;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date memBirthday;
+    private String accountType;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;		
+	 */
+	/* dao 인터페이스
+	@Select("SELECT * FROM STUDENT "
+			+ "WHERE STUDENT_NAME LIKE #{studentName}"
+			+ "AND STUDENT_ADDERSS LIKE #{studentAddress}"
+			LIST<Student> getStudentInfoList(Student sch);
+	)
+	/*
+	@Select("SELECT * FROM CUSTOMERS "
+			+ "WHERE CUSTOMER_NAME LIKE #{customerName} "
+			+ "AND CUSTOMER_ADDRESS LIKE #{customerAddress} "
+			+ "ORDER BY CUSTOMER_ID DESC")
+	List<Customers> getCustomersList(Customers sch);
+	 * 
+	 * 고객 정보 조회 예시구문
+	 @Select("SELECT * FROM customers "
+			+ "WHERE customer_name  LIKE #{customerName} "
+			+ "AND customer_address LIKE #{customerAddress}") 
+	List<Customer> getCustomerList(  Customer sch );
+	
+	 */
+	
+	
+	
+	
+	
+	
+	
+
+}

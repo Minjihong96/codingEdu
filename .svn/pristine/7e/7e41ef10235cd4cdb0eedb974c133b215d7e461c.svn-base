@@ -1,0 +1,14 @@
+spring.application.name=prj01
+
+
+# 컨테이너에서 사용할 포트 지정
+server.port = 7070
+
+
+spring.datasource.url=jdbc:oracle:thin:@61.252.30.155:1521:xe
+spring.datasource.username=four
+spring.datasource.password=4444
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+# sql의 snake case형식을 java에 camel case로 할당되게 처리
+mybatis.configuration.map-underscore-to-camel-case=true
+

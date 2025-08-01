@@ -1,0 +1,26 @@
+package web.com.springweb.seungwoo.a2;
+
+
+
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import web.com.springweb.seungwoo.a1.vo.CounselRequest;
+
+
+
+
+@Mapper
+public interface CounselRequestDao2 {
+
+	@Select("SELECT name, phone, counseling_time, department, message, reg_date " +
+	        "FROM counsel_request " +
+	        "WHERE name LIKE #{name}")
+	List<CounselRequest> getCR(CounselRequest sch);
+	
+}
+

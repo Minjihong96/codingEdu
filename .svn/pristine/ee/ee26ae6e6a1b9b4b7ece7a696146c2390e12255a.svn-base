@@ -1,0 +1,35 @@
+package web.com.springweb.seungwoo;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class SeProject {
+	// http://localhost:7070/seung1
+	@RequestMapping("seung1")
+	public String start() {	// 요청값
+		// 모델 데이터 설정
+		
+		// view 단 호출
+		return "WEB-INF\\views\\seungwoo\\free.jsp";
+	}
+	
+	@GetMapping("login")
+	public String login() { // 요청값.
+		// 모델 데이터 설정
+		// view단 호출..
+		return "WEB-INF\\\\views\\\\seungwoo\\\\login.jsp";
+	}
+	
+	@GetMapping("404")
+	public String a404() { // 요청값.
+		// 모델 데이터 설정
+		// view단 호출..
+		return "WEB-INF\\\\views\\\\seungwoo\\\\404.jsp";
+	}
+	
+
+
+
+}

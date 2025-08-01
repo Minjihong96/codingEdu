@@ -1,0 +1,40 @@
+SELECT * FROM counsel_request;
+
+/*
+	@Update("UPDATE CUSTOMERS\r\n"
+			+ "	SET CUSTOMER_NAME = #{customerName},\r\n"
+			+ "		CUSTOMER_EMAIL = #{customerEmail},\r\n"
+			+ "		CUSTOMER_PHONE = #{customerPhone},\r\n"
+			+ "		CUSTOMER_ADDRESS = #{customerAddress}\r\n"
+			+ "	WHERE CUSTOMER_ID = #{customerId}")
+	int updateCustomer(Customers upt);
+	
+	@Delete("DELETE FROM CUSTOMERS WHERE CUSTOMER_ID = #{customerId}")
+	int deleteCustomer(Customers del);
+*/
+
+SELECT * FROM JOIN_MEMBERSHIP;
+UPDATE JOIN_MEMBERSHIP
+	SET MEM_PWD = 'zxczxc1234!!',
+		MEM_NAME = '김명철',
+		MEM_PHONE = '010-78941599',
+		MEM_EMAIL = 'asdqwe123@gmail.com',
+		MEM_ADDRESS = '경기도 성남시 분당구',
+		MEM_BIRTHDAY = TO_DATE('1995-07-04','yyyy-mm-dd'),
+		ACCOUNT_TYPE = 'student'
+	WHERE ACCOUNT_TYPE = 'qwe34566';
+/*
+	@Update("UPDATE JOIN_MEMBERSHIP\r\n"
+			+ "	SET MEM_PWD = #{memPwd},\r\n"
+			+ "		MEM_NAME = #{memName},\r\n"
+			+ "		MEM_PHONE = #{memPhone},\r\n"
+			+ "		MEM_EMAIL = #{memEmail},\r\n"
+			+ "		MEM_ADDRESS = #{memAddress},\r\n"
+			+ "		MEM_BIRTHDAY = #{memBirthday},\r\n"
+			+ "		ACCOUNT_TYPE = #{accountType}\r\n"
+			+ "	WHERE MEM_ID = #{memId}")
+	int updateMem(JoinMem upt);
+	
+	@Delete("DELETE FROM JOIN_MEMBERSHIP WHERE MEM_ID = #{memId}")
+	int deleteMem(JoinMem del);
+*/

@@ -1,0 +1,97 @@
+package web.com.springweb.jihong.jh_controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import web.com.springweb.jihong.jh_service.ClassRecordService;
+import web.com.springweb.jihong.jh_vo.ClassRecord;
+import web.com.springweb.myeoncheol.vo.JoinMembership;
+
+
+@Controller
+public class ClassRecordController {
+	@Autowired(required = false)
+	private ClassRecordService service;
+	
+			
+		// http://localhost:7070/classRecordList
+		@RequestMapping("classRecordList")
+		public String classRecordList(ClassRecord sch, Model d) {
+			d.addAttribute("classRecordList", service.classRecordList(sch));
+			return "\\WEB-INF\\views\\jihong\\classRecordList.jsp";
+		}
+		
+		
+		// http://localhost:7070/classRecordInsert
+		@GetMapping("classRecordInsert")
+		public String classRecroedInsert() {
+			return "WEB-INF\\views\\jihong\\classRecordInsert.jsp";
+		}
+		// http://localhost:7070/classRecordInsert
+		@PostMapping("classRecordInsert")
+		public String classInsertPost(ClassRecord ins, Model d) {
+			d.addAttribute("msg",service.insertClassRecord(ins));
+			return "redirect:/classRecordList";
+		}
+		@PostMapping("classRecord")
+		public String classRecordInsertPost(ClassRecord ins, Model d) {
+			return "redirect:/classRecord";
+		}
+		
+		// http://localhost:7070/classRecordEdit
+		@RequestMapping("classRecordEdit")
+		public String classRecordEdit(ClassRecord sch, Model d) {
+			d.addAttribute("classRecordList", service.classRecordList(sch));
+			return "\\WEB-INF\\views\\jihong\\classRecordEdit.jsp";
+		}
+		/*
+		@GetMapping("classRecordEdit")
+		public String editForm(@RequestParam("id") Long id, Model model) {
+		    //ClassRecord cr = service.findById(id);  // 이 메서드는 classRecordList 말고 따로 있어야 함
+		    //model.addAttribute("classRecord", cr);
+		    return "classRecordEditForm";
+		}*/
+		// 수업 기록 페이지로 학생 목록 전달
+		
+		@ModelAttribute("studentName")
+		public String showClassRecordForm(Model model) {
+			 // service에서 학생 목록을 가져오기
+		    List<JoinMembership> studentList = service.studentList(null); // studentList() : 학생 목록 반환하는 메소드
+
+		    // studentList를 모델에 추가
+		    model.addAttribute("studentList", studentList);
+
+			return "WEB-INF\\views\\jihong\\classRecordInsert.jsp"; // your jsp path
+		}
+		
+		/*
+		
+		@GetMapping("/classRecord/edit")
+		public String editForm(@RequestParam("id") Long id, Model model) {
+		    ClassRecord cr = service.findById(id);
+		    model.addAttribute("classRecord", cr);
+		    return "classRecordEditForm"; // classRecordEditForm.jsp
+		}*/
+/*
+		// 수정 처리
+		@PostMapping("/classRecord/edit")
+		public String editSubmit(@ModelAttribute ClassRecord cr) {
+		    classRecordService.update(cr);
+		    return "redirect:/classRecord/list";
+		}
+
+		// 삭제 처리
+		@PostMapping("/classRecord/delete")
+		public String delete(@RequestParam("id") Long id) {
+		    classRecordService.delete(id);
+		    return "redirect:/classRecord/list";
+		}*/
+}

@@ -1,0 +1,31 @@
+package web.com.springweb.seungwoo.a2;
+
+
+
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+
+
+
+@Mapper
+public interface CounselRequestDao2 {
+	
+	
+    
+    @Select("SELECT COUNT(*) FROM EMP10")
+	int getCountAllEmp();
+
+	@Select("SELECT COUNT(*) FROM EMP10 WHERE DEPTNO = #{deptno}")
+	int getCountByDeptno(@Param("deptno") int deptno);
+
+	@Select("SELECT MAX(SAL) FROM EMP10 WHERE JOB = #{job}")
+	double getMaxSalByJob( @Param("job") String job ); 
+
+	@Select("SELECT ENAME FROM EMP10 WHERE EMPNO = #{empno}")
+	String getEnameByEmpno(@Param("empno") int empno);
+	
+}
+

@@ -1,0 +1,29 @@
+CREATE TABLE JOIN_MEMBERSHIP (
+	MEM_PRID        NUMBER(8,0) PRIMARY KEY,
+    MEM_ID          VARCHAR2(50) NOT NULL UNIQUE,
+    MEM_PWD         VARCHAR2(50) NOT NULL,
+    MEM_NAME		VARCHAR2(50) NOT NULL,
+    MEM_PHONE       VARCHAR2(50) NOT NULL,
+    MEM_EMAIL       VARCHAR2(100) NOT NULL,
+    MEM_ADDRESS     VARCHAR2(100) NOT NULL,
+    MEM_BIRTHDAY    DATE NOT NULL,
+    ACCOUNT_TYPE    VARCHAR2(20) DEFAULT 'student' CHECK (ACCOUNT_TYPE IN ('admin', 'student', 'teacher', 'etc')),
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- MEM_PRID에 들어갈 SEQUENCE 1부터 회원가입을 할떄마다 1씩 증가하게
+CREATE SEQUENCE PRID_SEQ;
+
+CREATE OR REPLACE TRIGGER trg_update_timestamp
+BEFORE UPDATE ON JOIN_MEMBERSHIP
+FOR EACH ROW
+BEGIN
+    :NEW.updated_at := CURRENT_TIMESTAMP;
+END;
+
+SELECT * FROM JOIN_MEMBERSHIP;
+/*
+	@Insert("INSERT INTO JOIN_MEMBERSHIP VALUES (PRID_SEQ.NEXTVAL, #{memId}, #{memPwd}, #{memName}, #{memPhone}, #{memEmail}, #{memAddress}, #{memBirthday}, #{accountType})")
+	int insertJoinMem(joinMem ins);
+*/

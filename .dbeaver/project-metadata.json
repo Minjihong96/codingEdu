@@ -1,0 +1,1 @@
+{"resources":{"database/gichantest.sql":{"default-schema":"FOUR","default-datasource":"oracle_thin-1976d55738e-5dee128f129ed8dd"},"src/main/java/web/com/springweb/jihong/database/lessonRecord.sql":{"default-schema":"FOUR","default-datasource":"oracle_thin-1976d55738e-5dee128f129ed8dd"}}}

@@ -1,0 +1,57 @@
+package web.com.springweb.jihong.jh_service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import web.com.springweb.jihong.jh_dao.ClassRecordDao;
+import web.com.springweb.jihong.jh_vo.ClassRecord;
+import web.com.springweb.myeoncheol.vo.JoinMembership;
+
+@Service
+public class ClassRecordService {
+	@Autowired(required=false)
+	private ClassRecordDao dao;
+	// GPT
+	public int classRecordEdit(ClassRecord classRecord) {
+        return dao.classRecordEdit(classRecord);
+    }
+
+	public List<ClassRecord> classRecordList(ClassRecord sch){
+		/*
+		if (sch.getClassContents() == null || sch.getClassContents().trim().equals("")) {
+	        sch.setClassContents(null); // 아예 null 처리
+	    } else {
+	        sch.setClassContents("%" + sch.getClassContents() + "%");
+	    }*/
+		if(sch.getClassContents()==null) sch.setClassContents("");
+		sch.setClassContents("%"+sch.getClassContents()+"%");
+		
+		return dao.classRecordList(sch);
+	}
+	
+	public String insertClassRecordList(ClassRecord ins) {
+		return dao.insertClassRecord(ins)>0?"등록 성공":"등록 실패";
+	}
+	public String insertClassRecord(ClassRecord ins) {
+		return dao.insertClassRecord(ins)>0?"등록 성공":"등록 실패";
+	}
+	public List<JoinMembership> studentList(JoinMembership sch){
+		return dao.studentList(sch);
+	}
+	public String classRecordDelete(int recordId) {
+		return dao.classRecordDelete(recordId) > 0 ? "삭제했습니다." : "삭제 실패했습니다.";
+	}
+	
+	public String classRecordEditMsg(ClassRecord upt) {
+		return dao.classRecordEdit(upt)>0?"수정 성공":"수정 실패";
+	}
+	
+	 // 특정 recordId로 수업 기록을 조회
+    public ClassRecord findById(int recordId) {
+        return dao.findById(recordId);
+    }
+}

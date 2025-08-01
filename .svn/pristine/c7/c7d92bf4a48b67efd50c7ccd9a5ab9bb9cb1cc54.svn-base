@@ -1,0 +1,99 @@
+package web.com.springweb.myeoncheol.smc01.a01_java;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import web.com.springweb.gichan.gi04_vo.JoinMem;
+import web.com.springweb.myeoncheol.vo.JoinMembership;
+
+@Service
+public class Serviceclass {
+	
+	@Autowired(required=false)
+	private InterfaceDao dao;
+	
+	/*
+	public List<Member> getMemberList(Member sch){
+		// name, addressname이 null
+		if(sch.getName()==null)sch.setName("");
+		if(sch.getMemberId()==null)sch.setMemberId("");
+		// "%" + getxxx "%"
+		sch.setName("%"+sch.getName()+"%");
+		sch.setMemberId("%"+sch.getMemberId()+"%");
+		
+		return dao.getMemberList(sch);
+	}
+	public List<Customers> getCustomersList(Customers sch){
+		// name, addressname이 null
+		if(sch.getCustomerName()==null)sch.setCustomerName("");
+		if(sch.getCustomerAddress()==null)sch.setCustomerAddress("");
+		// "%" + getxxx "%"
+		sch.setCustomerName("%"+sch.getCustomerName()+"%");
+		sch.setCustomerAddress("%"+sch.getCustomerAddress()+"%");
+		
+		return dao.getCustomersList(sch);
+	}
+	
+	*/
+	
+	public List<JoinMembership> getMemberList(JoinMembership sch){
+		if(sch.getMemName()==null) sch.setMemName("");
+		if(sch.getMemId()==null) sch.setMemId("");
+		// "%" + get XXX "%"
+		sch.setMemName("%"+sch.getMemName()+"%");
+		sch.setMemId("%"+sch.getMemId()+"%");
+	
+		return dao.getMemberList(sch);
+	}
+	
+	public JoinMembership memberById(int memPird) {
+		return dao.memberById(memPird);
+	}
+	
+	public JoinMem selectMember(JoinMem login) {
+		return dao.selectMember(login);
+	}
+	
+	// 회원정보 수정
+	public String updateSt(JoinMem upt) {
+		return dao.updateSt(upt)>0?"수정성공":"수정실패";
+	}
+	// 회원정보 삭제
+	public String deleteSt(JoinMem del) {
+		return dao.deleteSt(del)>0?"삭제성공":"삭제성공";
+	}
+	
+	/*
+	 *         테이블명    메서드명      타입
+	 * public Customers getCustomer(int customerId) {
+		return dao.getCustomer(customerId);
+	}
+	# 학생 정보 조회 예시구문
+	public List<Student> getStudentInfoList(  Student sch ){
+		// name, addressname이 null
+		if(sch.getStudentName()==null) sch.setStudentName("");
+		if(sch.getStudentAddress()==null) sch.setStudentAddress("");	
+		// "%" + get XXX "%"
+		sch.setStudentName("%"+sch.getStudentName()+"%");
+		sch.setStudentAddress("%"+sch.getStudentAddress()+"%");
+	
+		return dao.getStudentInfoList(sch);
+	}
+	
+	# 학생 정보 조회 예시구문
+	public List<Customer> getCustomerList(  Customer sch ){
+		// name, addressname이 null
+		if(sch.getCustomerName()==null) sch.setCustomerName("");
+		if(sch.getCustomerAddress()==null) sch.setCustomerAddress("");	
+		// "%" + get XXX "%"
+		sch.setCustomerName("%"+sch.getCustomerName()+"%");
+		sch.setCustomerAddress("%"+sch.getCustomerAddress()+"%");
+	
+		return dao.getCustomerList(sch);
+	}
+	 */
+	
+
+}

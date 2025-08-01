@@ -1,0 +1,27 @@
+package web.com.springweb.myeoncheol.smc01.a01_java;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class Serviceclass {
+	
+	@Autowired(required=false)
+	private InterfaceDao dao;
+	
+	/*
+	# 학생 정보 조회 예시구문
+	public List<Customer> getCustomerList(  Customer sch ){
+		// name, addressname이 null
+		if(sch.getCustomerName()==null) sch.setCustomerName("");
+		if(sch.getCustomerAddress()==null) sch.setCustomerAddress("");	
+		// "%" + get XXX "%"
+		sch.setCustomerName("%"+sch.getCustomerName()+"%");
+		sch.setCustomerAddress("%"+sch.getCustomerAddress()+"%");
+	
+		return dao.getCustomerList(sch);
+	}
+	 */
+	
+
+}

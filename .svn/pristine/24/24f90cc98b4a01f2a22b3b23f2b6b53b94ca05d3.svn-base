@@ -1,0 +1,42 @@
+package web.com.springweb.jihong.jh_controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import web.com.springweb.jihong.jh_service.ClassRecordService;
+import web.com.springweb.jihong.jh_vo.ClassRecord;
+
+@Controller
+public class ClassRecordController {
+	@Autowired(required = false)
+	private ClassRecordService service;
+		
+	
+		// http://localhost:7070/classRecordList
+		@RequestMapping("classRecordList")
+		public String classRecordList(ClassRecord sch, Model d) {
+			d.addAttribute("classRecordList", service.classRecordList(sch));
+			return "\\WEB-INF\\views\\jihong\\classRecordList.jsp";
+		}
+		
+		
+		// http://localhost:7070/classRecordInsert
+		@GetMapping("classRecordInsert")
+		public String classRecroedInsert() {
+			return "WEB-INF\\views\\jihong\\classRecord.jsp";
+		}
+		// http://localhost:7070/classRecordInsert
+		@PostMapping("classRecordInsert")
+		public String classInsertPost(ClassRecord ins, Model d) {
+			d.addAttribute("msg",service.insertClassRecord(ins));
+			return "redirect:/classRecordList";
+		}
+		@PostMapping("classRecord")
+		public String classRecordInsertPost(ClassRecord ins, Model d) {
+			return "redirect:/classRecord";
+		}
+}

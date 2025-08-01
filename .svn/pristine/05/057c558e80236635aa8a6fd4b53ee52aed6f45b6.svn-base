@@ -1,0 +1,172 @@
+# 고객정보처리 MVC - CRUD 처리.
+1. 개요
+	CRM에서 고객정보를 관리하는 프로그램으로 전체리스트, 등록, 상세조회, 수정, 삭제처리를 한다.
+2. 파일 및 내용
+	main\java\web\com\springweb\a04_mvc
+	
+	BACKEND단 : 요청값을 VO/DTO로 받아서 조회(WHERE), 등록/수정/삭제(매개변수로 전달)
+				모델데이터 db가져와서 설정
+	A01_CustomerController.java	[중재자-요청값을 SERVICE딘 잔딜, SERVICE받은 데이터를 모델설정, VIEW단을 호출]
+	A01_CustomerSerivce.java	[알고리즘이나 비지니스 처리를 한다. 전체검색시 NULL ==> "", 키워드 검색 % 추가, 페이지처리시 알고리즘]
+	A01_CustomerDao.java		[매개변수로 조건/입력/수정/삭제 db처리, 리턴값으로 핵심 모델데이터를 전달]
+	Customer.java [VO-value object, DTO-data transfer object 역할로 요청값을 db에 전달하거나 데이터를 자바로 만들어서 화면에 출력]
+	
+	VIEW단 : 요청값전달(form), 모델데이터 표현(출력)
+	webapp\WEB-INF\views\a04_mvc
+	a01_customerList.jsp
+	a02_customerInsert.jsp
+	a03_customerDetail.jsp	
+3. DB 	
+	customers 테이블, customer_seq 시퀀스
+
+#전체 리스트 처리	
+1. 프로세스흐름
+	1) 브라우저에 url  http://localhost:5050/customerList ==> controller에 있는 특정 기능 메서드 호출
+	
+	2) controller안에 @RequstMapping("customerList") 호출,  public customerList(Customer sch, Model d)
+		- url을 통해서 특정 view(jsp)를 호출
+	3) d.addAttribute("customerList", service.getCustomerList(sch)); 
+	4) service단애 getCustomerList를 호출 하면서 Customer sch 받은 내용으로 null여부를 확인해서 null, 공백을 처리.
+	5) dao 호출 해서 검색된 내용을  List<Customer>로 리턴하여 service ==> controller단에 넘기면
+		SELECT * FROM customers WHERE customer_name  LIKE '%%' AND customer_address LIKE '%%';
+	6) 	d.addAttribute("customerList", service.getCustomerList(sch));  모델 데이터 설정하고.
+	7) view단 호출 a01_customerList.jsp
+	8) view단에서 는 customerList 모델 값을
+		<c:forEach var="cus" items="${customerList}">
+			<tr>
+					<td>${cus.customerId}</td>
+					<td>${cus.customerName}</td>
+	9) <form>
+		<inpu name="customerName"									
+		<inpu name="customerAddress"	
+		통해서 controller를 요청하면 해당 내용을 키워드 검색해서 처리된다.
+
+2. 개발 순서
+	1) 초기화면 구현
+		controller 메서드 추가 url customerList, view a01_customerList.jsp
+		http://localhost:5050/customerList( 고객리스트 )(
+	2) dao
+		sql 
+		입력
+		리턴
+		객체(dto/vo)
+		메서드 선언
+	3) service 단
+		dao단 autowirie
+		요청값: null ==> "", 키워드 "%"+메서드명+"%"
+	4) controller 단
+		요청 객체 매개변수로 선언, Model 선언
+		service단 autowire
+		
+		getCustomerList(Customer sch, Model d){
+			d.addAttributer("customerList", service.getCustomerList(sch));
+			return "view단 호출"
+		}	
+	5) 화면단(view jsp)
+		검색할 요청값 처리
+		form
+			name="customerName"
+			name="customerAddress"
+		
+		검색된 내용 리스트
+		<c:forEach var="cus" items="${cuList}"> 
+    		<tr>
+    			<td>${cus.customerId}</td>
+    			<td>${cus.customerName}</td>
+    			<td>${cus.customerEmail}</td>
+    			<td>${cus.customerPhone}</td>
+    			<td>${cus.customerAddress}</td>
+    		</tr>
+    	</c:forEach>
+
+# 등록처리
+1. 프로세스 흐름
+	1) 리스트 화면(메인화면)에서 조회버튼 옆에 있는 등록 버튼을 클릭시, 등록 폼 화면으로 이동한다.
+	2) 등록할 내용(고객명, 이메일, 핸드폰, 주소)을 입력하고, 등록 버튼을 클릭시, 등록 요청 controller단에
+		데이터를 객체(모델어트리뷰터 - Customer객체)로 전달한다.
+	3) 위 입력된 데이터를 가지고 있는 Customer객체는 service/dao단을 거쳐서, 실제 insert sql 구문에 의해서
+		데이터를 등록하고,
+	4) 등록건수에 따라, 리턴값을 전달하여 service단에서는 1이상 여부에 따라 등록성공/등록실패를 controller의
+		모델 데이터로 전달한다.
+	5) 등록화면이 다시 호출 되면서, javascript로 받은 모델 데이터로 등록성공/실패 여부를 msg창으로 로딩후,
+		메인화면 이동 여부를 확인 후, 메인화면에서 등록된 내용을 확인 할 수 있다.
+
+2. 개발 순서
+	1) 리스트 화면에서 등록 버튼 클릭시, 등록 화면으로 이동 처리(get방식으로 이동)
+		<button id="regBtn">
+		$("#regBtn").click(function(){
+			location.href="/insertCustomers" get방식으로 호출
+		})
+	2) 등록화면에 form로 method(post) 등록에 필요한 name="customerName" name="customerPhone"
+		name="customerEmail" name="customerAddress" 데이터를 등록하여 처리할 수 있도록 한다.
+	3) submit클릭시, post방식으로 등록 요청값 Customer객체로 할당하여 service, dao	
+	---------------------------------------------------------------------
+	4) dao ==> service ==> controller
+		dao에서 리턴된 int값으로 service(int ==> 등록성공과 등록실패 구분해서 String 리턴),
+		controller 모델 데이터를 통해서 위 내용 처리여부를 모델데이터로 설정한다.
+		service dao(Autowired),controller service(Autowired)
+	----------------------------------------------------------------------
+	5) view단(jsp) - javascript 결과 내용을 출력
+	
+3. 점검해야할 핵심 기술
+	1) get 방식 페이지 호출
+		http://localhost:5050/insertCustomer
+		@GetMapping("insertCustomer")
+		public String insertCustomer01(){
+			return "..... insertCustomer.jsp"
+		}
+		
+		- url에 입력시 : http://localhost:5050/insertCustomer
+		-javascript 클릭시
+		$("#regBtn").click(function(){
+			location.href="http://localhost:5050/insertCustomer"; 
+		})
+		- form get방식
+			<form method="get" action="insertCustomer"> method를 선언하지 않을 때도
+				<input type="submit"> ==> 클릭시
+				
+			<form> 현재 jsp페이지가 insertCustomer에 의해서 호출되었을 때는 생략가능
+				<input type="submit"> ==> 클릭시
+				
+	2) post방식 페이지 호출
+		http://localhost:5050/insertCustomer
+		@PostMapping("insertCustomer")
+		public String insertCustomer01(){
+			return "..... insertCustomer.jsp"
+		}
+		- url 호출(x)
+		- javascript
+			location.href="http://localhost:5050/insertCustomer"; (x)
+			$("#regBtn").click(function(){
+				$("form").attr("method","post");
+				$("form").submit()
+			}) (o)
+		- <form method="post" action="insertCustomer">
+	3) get/post방식 페이지 호출
+		http://localhost:5050/insertCustomer
+		@RequestMapping("insertCustomer")
+		public String insertCustomer01(){
+			return "..... insertCustomer.jsp"
+		}
+	4) 데이터베이스 처리
+		1) sql 문 작성
+			INSERT INTO CUSTOMERS VALUES(CUSTOMER_SEQ.NEXTVAL,....)
+		2) 입력 .... ==> DTO ==> 매개변수 선언
+		   리턴값 int
+		3) dao
+			int insertCustomer(Customers ins);
+	5) service단
+		1) dao autowiring
+		2) public String int insertCustomer(Customers ins) {
+				return dao.insertCustomer(ins)>0?"등록성공":"등록실패";
+		   }
+	6) controller
+		1) service autowiring
+		2) d.addAttribute("msg", service.insertCustomer(ins));
+	7) view(jsp)
+		var msg = "${msg}"
+		if(msg!=""){
+			if(!confirm(msg+"\n메인리스트로 이동하시겠습니까?")){
+				location.href="customerList"
+			}
+		}

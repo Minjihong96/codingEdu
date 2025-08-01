@@ -1,0 +1,411 @@
+CREATE TABLE JOIN_MEMBERSHIP (
+	MEM_PRID        NUMBER(8,0) PRIMARY KEY,
+    MEM_ID          VARCHAR2(50) NOT NULL UNIQUE,
+    MEM_PWD         VARCHAR2(50) NOT NULL,
+    MEM_NAME		VARCHAR2(50) NOT NULL,
+    MEM_PHONE       VARCHAR2(50) NOT NULL,
+    MEM_EMAIL       VARCHAR2(100) NOT NULL,
+    MEM_ADDRESS     VARCHAR2(100) NOT NULL,
+    MEM_BIRTHDAY    DATE NOT NULL,
+    ACCOUNT_TYPE    VARCHAR2(20) DEFAULT 'student' CHECK (ACCOUNT_TYPE IN ('admin', 'student', 'teacher', 'etc')),
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+INSERT INTO JOIN_MEMBERSHIP 
+-- MEM_PRID에 들어갈 SEQUENCE 1부터 회원가입을 할떄마다 1씩 증가하게
+CREATE SEQUENCE PRID_SEQ;
+
+CREATE OR REPLACE TRIGGER trg_update_timestamp
+BEFORE UPDATE ON JOIN_MEMBERSHIP
+FOR EACH ROW
+BEGIN
+    :NEW.updated_at := CURRENT_TIMESTAMP;
+END;
+
+SELECT * FROM JOIN_MEMBERSHIP;
+SELECT * FROM JOIN_MEMBERSHIP WHERE MEM_ID = 'qwe123' AND MEM_PWD = 'qwer1234!!';
+SELECT * FROM JOIN_MEMBERSHIP WHERE MEM_PRID = 1;
+/* 학생이 자기정보 보는 페이지
+sql작성  private int memPrid;
+    private String memId;
+    private String memPwd;
+    private String memName;
+    private String memPhone;
+    private String memEmail;
+    private String memAddress;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date memBirthday;
+    private String accountType;
+
+@Select("SELECT * FROM JOIN_MEMBERSHIP WHERE MEM_PRID = #{memPrid}")
+joinMembership memberById(@Param("memPrid")int memPird)
+
+@Select("SELECT MEM_ID , MEM_NAME FROM JOIN_MEMBERSHIP WHERE MEM_PRID=#{memPrid}")
+Member getMemberByPrid(@Param("memPrid") int memPrid);
+
+zxcqwe123  zxcqwe123!!
+ *
+조인맴버쉽 ETC 역할 = 직원
+선생님 요소도 3개 추가해놓기
+etc 세개 추가
+ *  */
+
+SELECT * FROM JOIN_MEMBERSHIP;
+SELECT MEM_ID , MEM_NAME FROM JOIN_MEMBERSHIP WHERE MEM_PRID=43;
+
+/*
+
+자기정보 수정/삭제
+ */
+
+
+
+
+
+
+SELECT * FROM JOIN_MEMBERSHIP
+WHERE MEM_NAME LIKE '%%' 
+  AND MEM_PRID  = 0-- MEM_PRID에 특정 숫자 패턴이 포함된 경우
+ORDER BY MEM_PRID DESC;
+
+SELECT * FROM JOIN_MEMBERSHIP
+WHERE MEM_NAME LIKE '%%'
+AND MEM_ID LIKE '%%'
+ORDER BY MEM_PRID DESC;
+
+/*
+CREATE TABLE class_record (
+    RECORD_ID       NUMBER PRIMARY KEY,             -- 기록아이디 (기본키)
+    MEM_PRID        NUMBER(8,0) NOT NULL UNIQUE,    -- 회원아이디 (학생 ID, 외래키 가능)
+    CLASS_DATE      DATE NOT NULL,                  -- 수업날짜
+    CLASS_CONTENTS   VARCHAR2(100) NOT NULL,         -- 수업내용
+    SUBJECT         VARCHAR2(100),                  -- 과제
+    SESSION_NUMBER  NUMBER NOT NULL,                -- 잔여수업회차
+    PAYMENT         NUMBER,                         -- 결제
+    ETC             VARCHAR2(100)                   -- 기타
+);
+*/
+SELECT * FROM class_record;
+SELECT * FROM JOIN_MEMBERSHIP;
+INSERT INTO JOIN_MEMBERSHIP VALUES(
+PRID_SEQ.NEXTVAL, '')
+
+
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'etcuser1', 'Et#c2024!', '오지원', '010-5678-9012',
+  'etcuser1@example.com', '광주시 서구', TO_DATE('1992-05-20', 'YYYY-MM-DD'),
+  'etc', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'etcxy78a', 'Px$2023aa', '문지호', '010-6789-0123',
+  'etcxy78a@example.com', '경기도 고양시', TO_DATE('1988-11-03', 'YYYY-MM-DD'),
+  'etc', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'etcp1234', 'Rm@x7z9w!', '한예린', '010-7890-1234',
+  'etcp1234@example.com', '전주시 덕진구', TO_DATE('1995-03-11', 'YYYY-MM-DD'),
+  'etc', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'etc2024b', '9Tx@r3!v', '정세환', '010-8901-2345',
+  'etc2024b@example.com', '강원도 원주시', TO_DATE('1991-08-26', 'YYYY-MM-DD'),
+  'etc', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
+
+
+
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'user03', 'pwd03', '이철수', '010-3333-3333',
+  'user03@example.com', '부산시 해운대구', TO_DATE('2002-03-03', 'YYYY-MM-DD'),
+  'student', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'tc2024a1', 'Zm#2024@x', '정강사', '010-4567-8901',
+  'tc2024a1@example.com', '인천시 미추홀구', TO_DATE('1982-01-15', 'YYYY-MM-DD'),
+  'teacher', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'teachx21', 'Qw!8r7t6z', '최교사', '010-3456-7890',
+  'teachx21@example.com', '대전시 유성구', TO_DATE('1990-07-07', 'YYYY-MM-DD'),
+  'teacher', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'tea8899a', 'Pa$$word9', '이교수', '010-2345-6789',
+  'tea8899a@example.com', '부산시 해운대구', TO_DATE('1979-10-28', 'YYYY-MM-DD'),
+  'teacher', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'teachr01', 'Tg#2023xy', '김선생', '010-1234-5678',
+  'teachr01@example.com', '서울시 강남구', TO_DATE('1985-04-12', 'YYYY-MM-DD'),
+  'teacher', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'user04', 'pwd04', '박지민', '010-4444-4444',
+  'user04@example.com', '대구시 달서구', TO_DATE('1999-04-04', 'YYYY-MM-DD'),
+  'student', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'user05', 'pwd05', '최수정', '010-5555-5555',
+  'user05@example.com', '인천시 연수구', TO_DATE('1998-05-05', 'YYYY-MM-DD'),
+  'student', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'user06', 'pwd06', '정윤호', '010-6666-6666',
+  'user06@example.com', '광주시 북구', TO_DATE('2003-06-06', 'YYYY-MM-DD'),
+  'student', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'user07', 'pwd07', '장도연', '010-7777-7777',
+  'user07@example.com', '대전시 유성구', TO_DATE('2000-07-07', 'YYYY-MM-DD'),
+  'student', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'user08', 'pwd08', '서강준', '010-8888-8888',
+  'user08@example.com', '울산시 중구', TO_DATE('2001-08-08', 'YYYY-MM-DD'),
+  'student', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'user09', 'pwd09', '배수지', '010-9999-9999',
+  'user09@example.com', '경기도 수원시', TO_DATE('2002-09-09', 'YYYY-MM-DD'),
+  'student', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
+INSERT INTO JOIN_MEMBERSHIP (
+  MEM_PRID, MEM_ID, MEM_PWD, MEM_NAME, MEM_PHONE,
+  MEM_EMAIL, MEM_ADDRESS, MEM_BIRTHDAY, ACCOUNT_TYPE,
+  created_at, updated_at
+) VALUES (
+  PRID_SEQ.NEXTVAL, 'user10', 'pwd10', '김도현', '010-1010-1010',
+  'user10@example.com', '경상북도 포항시', TO_DATE('2003-10-10', 'YYYY-MM-DD'),
+  'student', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+);
+
+SELECT * FROM JOIN_MEMBERSHIP;
+
+ -- 강의 테이블
+-- 생성 규칙
+/*
+TITLE은 코딩강의를 기준으로 작성,
+DIFFICULTY는 LOW, MIDDLE, HIGH 3가지 중에서 랜덤, 
+DESCRIPTION은 100자 내외로 각 항목에 맞는 설명,  
+LECTURES는 최대 8로 랜덤, 
+DURATION은 1,2,3중 랜덤, 
+MEM_PRID는 teacher에서 랜덤한 값.
+ */ 
+CREATE TABLE MATERIALS (
+    MATERIAL_ID     NUMBER PRIMARY KEY,
+    TITLE           VARCHAR2(200) NOT NULL,
+    MATERIALS_IMG   VARCHAR2(200) NOT NULL,
+    DESCRIPTION     VARCHAR2(1000) NOT NULL,
+    FILE_PATH       VARCHAR2(500),
+    UPLOAD_DATE     DATE NOT NULL,
+    PRICE           NUMBER(7) NOT NULL,
+    DIFFICULTY           VARCHAR2(10) NOT NULL,
+    DURATION        NUMBER NOT NULL,
+    LECTURES         NUMBER NOT NULL,
+    MEM_PRID        NUMBER(8,0) NOT NULL,
+    CONSTRAINT FK_MATERIALS_MEM FOREIGN KEY (MEM_PRID)
+        REFERENCES JOIN_MEMBERSHIP(MEM_PRID)
+);
+/*
+private int materialId;
+	private String title;
+	private String materialsImg;
+	private String description;
+	private String filePath;
+	private Date uploadDate;
+	private int price;
+	private String difficulty;
+	private int duration;
+	private String lectures;
+	private int memPrid;
+ */
+
+SELECT * FROM MATERIALS;
+INSERT INTO MATERIALS (MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH, UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, MEM_PRID)
+VALUES (MAT_SEQ.NEXTVAL, 'Java기초', 'java01.jpg', 'Java 문법과 변수 이해 중심 강의', '/download/java01.jpg', SYSDATE, 30000, 'LOW', 2, 5, 56);
+
+INSERT INTO MATERIALS (MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH, UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, MEM_PRID)
+VALUES (MAT_SEQ.NEXTVAL, 'HTML기본', 'html01.jpg', 'HTML 구조와 태그 설명을 담은 강의', '/download/html01.jpg', SYSDATE, 20000, 'LOW', 1, 6, 18);
+
+INSERT INTO MATERIALS (MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH, UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, MEM_PRID)
+VALUES (MAT_SEQ.NEXTVAL, 'CSS디자인', 'css01.jpg', 'CSS 스타일링과 배치 기본 학습', '/download/css01.jpg', SYSDATE, 40000, 'MIDDLE', 2, 4, 57);
+
+INSERT INTO MATERIALS (MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH, UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, MEM_PRID)
+VALUES (MAT_SEQ.NEXTVAL, 'JS문법', 'js01.jpg', 'JavaScript 기초 문법과 연산자 학습', '/download/js01.jpg', SYSDATE, 30000, 'MIDDLE', 1, 8, 58);
+
+INSERT INTO MATERIALS (MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH, UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, MEM_PRID)
+VALUES (MAT_SEQ.NEXTVAL, 'SQL기본', 'sql01.jpg', '기본 SELECT부터 WHERE절 학습', '/download/sql01.jpg', SYSDATE, 50000, 'LOW', 2, 7, 59);
+
+INSERT INTO MATERIALS (MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH, UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, MEM_PRID)
+VALUES (MAT_SEQ.NEXTVAL, 'Java중급', 'java02.jpg', '조건문과 반복문 활용 학습', '/download/java02.jpg', SYSDATE, 60000, 'MIDDLE', 3, 6, 60);
+
+INSERT INTO MATERIALS (MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH, UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, MEM_PRID)
+VALUES (MAT_SEQ.NEXTVAL, 'JSP기초', 'jsp01.jpg', 'JSP에서 화면 구성과 요청 처리', '/download/jsp01.jpg', SYSDATE, 70000, 'HIGH', 3, 4, 56);
+
+INSERT INTO MATERIALS (MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH, UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, MEM_PRID)
+VALUES (MAT_SEQ.NEXTVAL, 'AJAX입문', 'ajax01.jpg', 'AJAX를 활용한 비동기 통신 기초', '/download/ajax01.jpg', SYSDATE, 80000, 'MIDDLE', 2, 5, 57);
+
+INSERT INTO MATERIALS (MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH, UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, MEM_PRID)
+VALUES (MAT_SEQ.NEXTVAL, 'Spring초급', 'spring01.jpg', 'Spring Framework의 기초 이해', '/download/spring01.jpg', SYSDATE, 90000, 'HIGH', 3, 7, 58);
+
+INSERT INTO MATERIALS (MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH, UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, MEM_PRID)
+VALUES (MAT_SEQ.NEXTVAL, 'Node기초', 'node01.jpg', 'Node.js 서버 사이드 기초 강의', '/download/node01.jpg', SYSDATE, 40000, 'MIDDLE', 2, 6, 59);
+
+
+INSERT INTO MATERIALS (
+  MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH,
+  UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, MEM_PRID
+) VALUES (
+  MAT_SEQ.NEXTVAL, 'HTML 기초 마스터', 'html_기초_마스터.jpg', 'HTML의 기본 구조와 태그 사용법을 배워 웹 문서의 뼈대를 설계할 수 있습니다.', '/files/materials/html_기초_마스터.jpg',
+  SYSDATE, 100000, 'LOW', 2, 7, 56
+);
+DELETE  FROM MATERIALS WHERE MATERIAL_ID = 2;
+ALTER TABLE MATERIALS
+DROP COLUMN CATEGORIES;
+INSERT INTO MATERIALS (
+  MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH,
+  UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, CATEGORIES, MEM_PRID
+) VALUES (
+  MAT_SEQ.NEXTVAL, 'CSS 레이아웃 완전정복', 'css_레이아웃_완전정복.jpg', 'CSS를 활용한 박스모델, Flexbox, Grid 등을 학습하여 레이아웃을 자유롭게 구성합니다.', '/files/materials/css_레이아웃_완전정복.jpg',
+  TO_DATE('2025-06-27','YYYY-MM-DD'), 120000, 'HIGH', 1, 1, 'CSS', 60
+);
+
+INSERT INTO MATERIALS (
+  MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH,
+  UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, CATEGORIES, MEM_PRID
+) VALUES (
+  MAT_SEQ.NEXTVAL, 'Java 입문 강의', 'java_입문_강의.jpg', 'Java의 문법과 객체지향 개념을 기초부터 익히며 간단한 프로그램을 작성합니다.', '/files/materials/java_입문_강의.jpg',
+  TO_DATE('2025-06-27','YYYY-MM-DD'), 100000, 'MIDDLE', 1, 6, 'Java', 18
+);
+
+INSERT INTO MATERIALS (
+  MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH,
+  UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, CATEGORIES, MEM_PRID
+) VALUES (
+  MAT_SEQ.NEXTVAL, 'JavaScript DOM 활용', 'javascript_dom_활용.jpg', 'DOM(Document Object Model)을 제어하여 동적인 웹 페이지를 구현하는 방법을 배웁니다.', '/files/materials/javascript_dom_활용.jpg',
+  TO_DATE('2025-06-27','YYYY-MM-DD'), 140000, 'MIDDLE', 1, 5, 'JavaScript', 61
+);
+
+INSERT INTO MATERIALS (
+  MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH,
+  UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, CATEGORIES, MEM_PRID
+) VALUES (
+  MAT_SEQ.NEXTVAL, '부트스트랩 반응형 웹', '부트스트랩_반응형_웹.jpg', 'Bootstrap 프레임워크를 활용해 반응형 웹사이트를 쉽고 빠르게 구축할 수 있습니다.', '/files/materials/부트스트랩_반응형_웹.jpg',
+  TO_DATE('2025-06-27','YYYY-MM-DD'), 200000, 'LOW', 3, 5, 'Bootstrap', 55
+);
+
+INSERT INTO MATERIALS (
+  MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH,
+  UPLOAD_DATE, PRICE, DIFFICULTY, DURATION, LECTURES, CATEGORIES, MEM_PRID
+) VALUES (
+  MAT_SEQ.NEXTVAL, 'C언어 구조적 프로그래밍', 'c언어_구조적_프로그래밍.jpg', 'C언어의 기본 문법과 절차적 프로그래밍 방식으로 구조적인 코드를 작성합니다.', '/files/materials/c언어_구조적_프로그래밍.jpg',
+  TO_DATE('2025-06-27','YYYY-MM-DD'), 210000, 'MIDDLE', 1, 5, 'c언어', 56
+);
+
+
+/*
+MATERIAL_ID 시퀀스 요소마다 추가해주기
+ */
+SELECT sequence_name
+FROM user_sequences
+WHERE sequence_name = 'MAT_SEQ';
+SELECT MAT_SEQ.NEXTVAL FROM dual;
+CREATE SEQUENCE MAT_SEQ;
+DROP TABLE MATERIALS;
+-- 수강등록
+CREATE TABLE ENROLLMENTS (
+    ENR_ID          NUMBER PRIMARY KEY,
+    MEM_PRID        NUMBER NOT NULL,
+    MATERIALS_ID    NUMBER NOT NULL,
+    STATUS          VARCHAR2(20) NOT NULL,
+    ENR_DATE        DATE NOT NULL,
+    CONSTRAINT FK_ENROLL_MEM FOREIGN KEY (MEM_PRID)
+        REFERENCES JOIN_MEMBERSHIP(MEM_PRID),
+    CONSTRAINT FK_ENROLL_MAT FOREIGN KEY (MATERIALS_ID)
+      z  REFERENCES MATERIALS(MATERIAL_ID)
+);
+
+SELECT * FROM ENROLLMENTS;
+
+-- 
+
+
+
+
+
+
+
+
+
+
+

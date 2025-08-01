@@ -1,0 +1,30 @@
+package web.com.springweb.seungwoo.a1;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import web.com.springweb.seungwoo.a1.vo.CounselRequest;
+
+
+
+
+
+@Service
+public class CounselRequestServiceImpl {
+
+    @Autowired
+    private CounselRequestDao dao;
+
+    public List<CounselRequest> crList(CounselRequest sch){
+		// 비지니스(알고리즈 처리시 해야할 코드)...
+		// 초기화면에 전체 키워드검색
+		if(sch.getName()==null) sch.setName("");
+		
+		sch.setName("%"+sch.getName()+"%");
+		
+		
+		return dao.crList(sch);
+	}
+}

@@ -1,0 +1,27 @@
+package web.com.springweb.jihong.jh_service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import web.com.springweb.jihong.jh_dao.ClassRecordDao;
+import web.com.springweb.jihong.jh_vo.ClassRecord;
+
+@Service
+public class ClassRecordService {
+	@Autowired(required=false)
+	private ClassRecordDao dao;
+	
+	public List<ClassRecord> classRecordList(ClassRecord sch){
+		
+		
+		if(sch.getClassContents()==null) sch.setClassContents("");
+		sch.setClassContents("%"+sch.getClassContents()+"%");
+		
+		return dao.classRecordList(sch);
+	}
+	public String insertClassRecordList(ClassRecord ins) {
+		return dao.insertClassRecord(ins)>0?"등록 성공":"등록 실패";
+	}
+}

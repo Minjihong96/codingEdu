@@ -1,0 +1,193 @@
+SELECT * FROM counsel_request;
+
+/*
+	@Update("UPDATE CUSTOMERS\r\n"
+			+ "	SET CUSTOMER_NAME = #{customerName},\r\n"
+			+ "		CUSTOMER_EMAIL = #{customerEmail},\r\n"
+			+ "		CUSTOMER_PHONE = #{customerPhone},\r\n"
+			+ "		CUSTOMER_ADDRESS = #{customerAddress}\r\n"
+			+ "	WHERE CUSTOMER_ID = #{customerId}")
+	int updateCustomer(Customers upt);
+	
+	@Delete("DELETE FROM CUSTOMERS WHERE CUSTOMER_ID = #{customerId}")
+	int deleteCustomer(Customers del);
+*/
+
+SELECT * FROM JOIN_MEMBERSHIP;
+UPDATE JOIN_MEMBERSHIP
+	SET MEM_PWD = 'zxczxc1234!!',
+		MEM_NAME = '김명철',
+		MEM_PHONE = '010-7894-1599',
+		MEM_EMAIL = 'asdqwe123@gmail.com',
+		MEM_ADDRESS = '경기도 성남시 분당구',
+		MEM_BIRTHDAY = TO_DATE('1995-07-04','yyyy-mm-dd'),
+		ACCOUNT_TYPE = 'student'
+	WHERE ACCOUNT_TYPE = 'qwe34566';
+/*
+	@Update("UPDATE JOIN_MEMBERSHIP\r\n"
+			+ "	SET MEM_PWD = #{memPwd},\r\n"
+			+ "		MEM_NAME = #{memName},\r\n"
+			+ "		MEM_PHONE = #{memPhone},\r\n"
+			+ "		MEM_EMAIL = #{memEmail},\r\n"
+			+ "		MEM_ADDRESS = #{memAddress},\r\n"
+			+ "		MEM_BIRTHDAY = #{memBirthday},\r\n"
+			+ "		ACCOUNT_TYPE = #{accountType}\r\n"
+			+ "	WHERE MEM_ID = #{memId}")
+	int updateMem(JoinMem upt);
+	
+	@Delete("DELETE FROM JOIN_MEMBERSHIP WHERE MEM_ID = #{memId}")
+	int deleteMem(JoinMem del);
+*/
+
+CREATE TABLE JOIN_MEMBERSHIP (
+	MEM_PRID        NUMBER(8,0) PRIMARY KEY,	-- 회원 고유번호
+    MEM_ID          VARCHAR2(50) NOT NULL UNIQUE,	-- 회원 아이디
+    MEM_PWD         VARCHAR2(50) NOT NULL,	-- 회원 비밀번호
+    MEM_NAME		VARCHAR2(50) NOT NULL,	-- 회원 이름
+    MEM_PHONE       VARCHAR2(50) NOT NULL,	-- 회원 전화번호
+    MEM_EMAIL       VARCHAR2(100) NOT NULL, -- 회원 이메일
+    MEM_ADDRESS     VARCHAR2(100) NOT NULL, -- 회원 주소
+    MEM_BIRTHDAY    DATE NOT NULL,			-- 생년월일
+    ACCOUNT_TYPE    VARCHAR2(20) DEFAULT 'student' CHECK (ACCOUNT_TYPE IN ('admin', 'student', 'teacher', 'etc')),
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- 강의 목록 테이블
+CREATE TABLE ENROLLMENTS (
+    ENR_ID          NUMBER PRIMARY KEY,
+    MEM_PRID        NUMBER NOT NULL,
+    MATERIALS_ID    NUMBER NOT NULL,
+    STATUS          VARCHAR2(20) NOT NULL,
+    ENR_DATE        DATE NOT NULL,
+    CONSTRAINT FK_ENROLL_MEM FOREIGN KEY (MEM_PRID)
+        REFERENCES JOIN_MEMBERSHIP(MEM_PRID),
+    CONSTRAINT FK_ENROLL_MAT FOREIGN KEY (MATERIALS_ID)
+        REFERENCES MATERIALS(MATERIAL_ID)
+);
+SELECT * FROM ENROLLMENTS;
+ -- 강의 테이블
+CREATE TABLE MATERIALS (
+    MATERIAL_ID     NUMBER PRIMARY KEY,
+    TITLE           VARCHAR2(200) NOT NULL,
+    MATERIALS_IMG   VARCHAR2(200) NOT NULL,
+    DESCRIPTION     VARCHAR2(1000) NOT NULL,
+    FILE_PATH       VARCHAR2(500),
+    UPLOAD_DATE     DATE NOT NULL,
+    PRICE           NUMBER(7) NOT NULL,
+    DIFFICULTY      VARCHAR2(10) NOT NULL,
+    DURATION        NUMBER NOT NULL,
+    LECTURES         NUMBER NOT NULL,
+    CATEGORIES      VARCHAR2(50) NOT NULL,
+    MEM_PRID        NUMBER(8,0) NOT NULL,
+    CONSTRAINT FK_MATERIALS_MEM FOREIGN KEY (MEM_PRID)
+        REFERENCES JOIN_MEMBERSHIP(MEM_PRID)
+);
+SELECT * FROM MATERIALS;
+SELECT * FROM JOIN_MEMBERSHIP WHERE ACCOUNT_TYPE='student';
+
+-- PRID 18
+INSERT INTO MATERIALS (
+    MATERIAL_ID, TITLE, MATERIALS_IMG, DESCRIPTION, FILE_PATH, UPLOAD_DATE,
+    PRICE, DIFFICULTY, DURATION, LECTURES, MEM_PRID
+) VALUES (
+    MAT_SEQ.NEXTVAL, '자바 기초 마스터', 'assets/img/gallery/java.png', '자바 기초부터 객체지향까지 완전정복!',
+    '/download/', SYSDATE, 20000, 'low', 2, 8, 18
+);
+
+-- PRID 55
+INSERT INTO MATERIALS VALUES (
+    MAT_SEQ.NEXTVAL, '파이썬으로 배우는 코딩', 'assets/img/gallery/python.jpg', '비전공자도 쉽게 배우는 파이썬 기초 강의',
+    '', SYSDATE,
+    30000, 'low', 3, 5, 55
+);
+
+-- PRID 56
+INSERT INTO MATERIALS VALUES (
+    MAT_SEQ.NEXTVAL, 'Spring Boot 완벽 가이드', 'assets/img/gallery/spring.jpg', '백엔드 개발자를 위한 스프링부트 실전 입문서',
+    '', SYSDATE,
+    10000, 'middle', 1, 8, 56
+);
+
+-- PRID 57
+INSERT INTO MATERIALS VALUES (
+    MAT_SEQ.NEXTVAL, 'React와 함께하는 프론트엔드 개발', 'assets/img/gallery/react.jpg', '모던 프론트엔드의 핵심, 리액트를 마스터하자!',
+    '', SYSDATE,
+    70000, 'middle', 2, 6, 57
+);
+
+-- PRID 58
+INSERT INTO MATERIALS VALUES (
+    MAT_SEQ.NEXTVAL, 'SQL과 데이터베이스', 'assets/img/gallery/sql.jpg', 'SQL 기본부터 실무 활용까지!',
+    '', SYSDATE,
+    60000, 'low', 3, 4, 58
+);
+
+-- PRID 59
+INSERT INTO MATERIALS VALUES (
+    MAT_SEQ.NEXTVAL, 'AI 기초와 머신러닝 입문', 'assets/img/gallery/ml.jpg', '머신러닝 개념부터 간단한 모델 구축까지',
+    '', SYSDATE,
+    50000, 'high', 2, 7,  59
+);
+
+-- PRID 60
+INSERT INTO MATERIALS VALUES (
+    MAT_SEQ.NEXTVAL, 'HTML/CSS 웹 디자인', 'assets/img/gallery/htcs.jpg', 'HTML과 CSS를 이용한 웹페이지 제작 입문',
+    '', SYSDATE,
+    90000, 'low', 1, 6, 60
+);
+
+-- PRID 61
+INSERT INTO MATERIALS VALUES (
+    MAT_SEQ.NEXTVAL, 'Node.js 백엔드 실전', 'assets/img/gallery/node.jpg', 'Node.js와 Express로 백엔드 API 만들기',
+    '', SYSDATE,
+    80000, 'high', 3, 5, 61
+);
+
+SELECT * FROM MATERIALS WHERE TITLE LIKE '%%' ORDER BY MATERIAL_ID;
+/*
+@Select("SELECT * FROM MATERIALS WHERE TITLE LIKE #{title} ORDER BY MATERIAL_ID")
+List<Materials> getMaterialList(Materials sch)
+*/
+SELECT * FROM MATERIALS WHERE MATERIAL_ID = 3;
+/*
+	@Select("SELECT * FROM MATERIALS WHERE MATERIAL_ID = #{materialId}}")
+	Materials matById(@Param("materialId")int materialId);
+*/
+
+CREATE TABLE ENROLLMENTS (
+    ENR_ID          NUMBER PRIMARY KEY,
+    MEM_PRID        NUMBER NOT NULL,
+    MATERIALS_ID    NUMBER NOT NULL,
+    STATUS          VARCHAR2(20) NOT NULL,
+    ENR_DATE        DATE NOT NULL,
+    CONSTRAINT FK_ENROLL_MEM FOREIGN KEY (MEM_PRID)
+        REFERENCES JOIN_MEMBERSHIP(MEM_PRID),
+    CONSTRAINT FK_ENROLL_MAT FOREIGN KEY (MATERIALS_ID)
+        REFERENCES MATERIALS(MATERIAL_ID)
+);
+SELECT * FROM ENROLLMENTS;
+CREATE SEQUENCE ENR_SEQ;
+INSERT INTO ENROLLMENTS VALUES(ENR_SEQ.NEXTVAL, 45, 3, '', SYSDATE);
+DELETE FROM ENROLLMENTS WHERE ENR_ID = 6;
+/*
+@Insert("INSERT INTO ENROLLMENTS VALUES(ENR_SEQ.NEXTVAL, #{memPrid}, #{materialsId}, #{status}, SYSDATE)")
+int insertEnr(Enrollments ins);
+*/
+SELECT * FROM ENROLLMENTS WHERE STATUS LIKE '%%';
+/*
+@Select("SELECT * FROM ENROLLMENTS WHERE STATUS LIKE #{status}")
+List<Enrollments> getEnroll(Enrollments sch);
+*/
+SELECT * FROM JOIN_MEMBERSHIP;
+
+CREATE TABLE MEMBER_WITHDRAWAL (
+    withdrawal_id     NUMBER PRIMARY KEY, -- 시퀀스를 통한 고유값
+    mem_prid          NUMBER NOT NULL,    -- 회원 고유 ID
+    mem_name          VARCHAR2(100) NOT NULL,
+    reason            VARCHAR2(1000),
+    withdrawal_date   DATE DEFAULT SYSDATE
+);
+SELECT * FROM MEMBER_WITHDRAWAL;
+CREATE SEQUENCE WITHDRAWAL_SEQ;
+
+SELECT * FROM users;

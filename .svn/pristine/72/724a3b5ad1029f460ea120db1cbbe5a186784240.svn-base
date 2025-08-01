@@ -1,0 +1,126 @@
+package web.com.springweb.project.p01_controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import jakarta.servlet.http.HttpSession;
+import web.com.springweb.project.p04_vo.ClassRecord;
+import web.com.springweb.project.p02_service.P_Service;
+import web.com.springweb.project.p04_vo.JoinMem;
+
+
+@Controller
+public class P_Controller {
+	@Autowired(required = false)
+	private P_Service service;
+	
+
+	// http://localhost:7070/pmain
+	@RequestMapping("pmain")
+	public String main() {
+		return "\\WEB-INF\\views\\project\\main.jsp";
+	}
+	
+	// http://localhost:7070/pinsertMem
+	@RequestMapping("pinsertMem")
+	public String joinMemInsertPost(JoinMem ins, Model d) {
+	    if (ins.getMemId() != null) {
+	        String result = service.insertJoinMem(ins);
+	        if ("등록성공".equals(result)) {
+	        	return "redirect:pmain"; // 회원가입 성공 시 main.jsp로 이동
+	        } else {
+	            d.addAttribute("msg", "회원가입 실패했습니다.");
+	            return "\\WEB-INF\\views\\project\\join.jsp"; // 실패 시 다시 join.jsp
+	        }
+	    }
+	    return "WEB-INF\\views\\project\\join.jsp";
+	}
+	
+	@RequestMapping("pcheckId")
+	@ResponseBody
+	public boolean checkId(String memId) {
+	    return service.checkId(memId);
+	}
+	
+	@GetMapping("plogin")
+	public String loginPage() {
+	    return "WEB-INF/views/project/login.jsp"; // 로그인 폼으로 이동
+	}
+	@PostMapping("plogin")
+	public String loginProc(JoinMem loginReq, Model d, HttpSession session) {
+
+		JoinMem user = service.selectMember(loginReq);
+	    if (user != null) {
+	        session.setAttribute("loginUser", user); // 세션에 저장
+
+	        // accountType에 따라 리디렉션
+	        String accountType = user.getAccountType();
+
+	        if ("student".equalsIgnoreCase(accountType)) {
+	            return "redirect:pstumain";
+	        } else if ("admin".equalsIgnoreCase(accountType)) {
+	            return "redirect:padminmain";
+	        } else if ("teacher".equalsIgnoreCase(accountType)) {
+	            return "redirect:pteamain";
+	        } else {
+	            // 알 수 없는 계정 유형
+	            d.addAttribute("loginError", "알 수 없는 계정 유형입니다.");
+	            return "WEB-INF\\views\\project\\login.jsp";
+	        }
+
+	    } else {
+	        // 로그인 실패
+	        d.addAttribute("loginError", "아이디 또는 비밀번호가 틀렸습니다.");
+	        return "WEB-INF\\views\\project\\login.jsp";
+	    }
+	}
+	@RequestMapping("pstumain")
+	public String stumain() {
+	    return "WEB-INF\\views\\project\\stumain.jsp";
+	}
+	@RequestMapping("padminmain")
+	public String adminMain() {
+	    return "WEB-INF\\views\\project\\adminmain.jsp";
+	}
+	@RequestMapping("pteamain")
+	public String teaMain() {
+	    return "WEB-INF\\views\\project\\teamain.jsp";
+	}
+	
+    @RequestMapping("plogout.do")
+    public String logout(HttpSession session) {
+        session.invalidate(); // 세션 삭제
+        return "redirect:pmain"; // 메인 페이지로 리다이렉트
+    }
+    /*
+    //지홍님 파트
+	// http://localhost:7070/pclassRecordList
+	@RequestMapping("pclassRecordList")
+	public String pclassRecordList(ClassRecord sch, Model d) {
+		d.addAttribute("classRecordList", service.pclassRecordList(sch));
+		return "\\WEB-INF\\views\\project\\classRecordList.jsp";
+	}
+	
+	
+	// http://localhost:7070/pclassRecordInsert
+	@GetMapping("pclassRecordInsert")
+	public String classRecroedInsert() {
+		return "WEB-INF\\views\\project\\classRecord.jsp";
+	}
+	// http://localhost:7070/pclassRecordInsert
+	@PostMapping("pclassRecordInsert")
+	public String classInsertPost(ClassRecord ins, Model d) {
+		d.addAttribute("msg",service.pinsertClassRecord(ins));
+		return "redirect:/pclassRecordList";
+	}
+	@PostMapping("pclassRecord")
+	public String classRecordInsertPost(ClassRecord ins, Model d) {
+		return "redirect:/pclassRecord";
+	}
+    */
+}

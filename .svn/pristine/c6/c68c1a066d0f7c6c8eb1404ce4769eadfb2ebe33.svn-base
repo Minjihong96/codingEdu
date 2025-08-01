@@ -1,0 +1,38 @@
+package web.com.springweb.seungwoo.a2;
+
+
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+@Controller
+public class CounselRequestController2 {
+	
+    @Autowired(required = false)
+	private CounselRequestService2 service;
+    
+
+
+    
+	
+	
+    @GetMapping("dbAjax03View")
+    public String dbAjax03View() {
+    	return "seungwoo\\dbAjax03View.html";
+    }	
+	@GetMapping("dbAjax03")
+	public ResponseEntity<?> dbAjax03(@RequestParam("empno") int empno){
+		return ResponseEntity.ok("사원번호"+empno+"의 사원명:"+ service.getEnameByEmpno(empno));	
+	}	
+    
+	
+	
+	
+   
+}

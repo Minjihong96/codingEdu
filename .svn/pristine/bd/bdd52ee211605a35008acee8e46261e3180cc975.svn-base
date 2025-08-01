@@ -1,0 +1,28 @@
+package web.com.springweb.gichan;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class GiProject {
+	// http://localhost:7070/gichan1
+	@RequestMapping("gichan1")
+	public String start() {	// 요청값
+		// 모델 데이터 설정
+		
+		// view 단 호출
+		return "WEB-INF\\views\\gichan\\pricing.jsp";
+	}
+	// http://localhost:7070/gichan2
+	@RequestMapping("gichan2")
+	public String start1() {	// 요청값
+		// 모델 데이터 설정
+			
+		// view 단 호출
+		return "\\WEB-INF\\views\\gichan\\join.jsp";
+	}
+
+
+
+}

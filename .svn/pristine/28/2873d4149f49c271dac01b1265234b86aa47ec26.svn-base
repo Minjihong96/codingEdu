@@ -1,0 +1,38 @@
+package web.com.springweb.seungwoo.a2;
+
+
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+import web.com.springweb.seungwoo.a2.CounselRequestDao2;
+
+@Service
+public class CounselRequestService2 {
+
+	@Autowired(required=false)
+	private CounselRequestDao2 dao;
+	
+
+    
+    public int getCountByDeptno(int deptno) {
+		return dao.getCountByDeptno(deptno);
+	}
+	// dao 메서드 호출
+	public double getMaxSalByJob( String job ) {
+		return dao.getMaxSalByJob(job);
+	}
+	public String getEnameByEmpno(@Param("empno") int empno){
+		return dao.getEnameByEmpno(empno);
+	}
+    
+    
+    
+    
+    
+    
+    
+    
+}

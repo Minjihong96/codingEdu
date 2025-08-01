@@ -1,0 +1,35 @@
+package web.com.springweb.seungwoo.a2;
+
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import web.com.springweb.seungwoo.a1.vo.CounselRequest;
+
+@Service
+public class CounselRequestService2 {
+
+	@Autowired(required=false)
+	private CounselRequestDao2 dao;
+	
+
+	public List<CounselRequest> getCR(CounselRequest sch) {
+		// 초기화면에서 null 시, "" 처리
+		
+		if(sch.getName() == null) sch.setName("");
+
+		sch.setName("%" + sch.getName() + "%");
+		
+		return dao.getCR(sch);
+	}
+    
+    
+    
+    
+    
+    
+    
+}

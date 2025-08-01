@@ -1,0 +1,52 @@
+package web.com.springweb.seungwoo.a2;
+
+
+
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import web.com.springweb.seungwoo.a1.vo.CounselRequest;
+
+@Controller
+public class CounselRequestController2 {
+	
+    @Autowired(required = false)
+	private CounselRequestService2 service;
+    
+
+    @GetMapping("getCR")
+	public ResponseEntity<?> getCR(CounselRequest sch){
+		return ResponseEntity.ok(service.getCR(sch));
+	}
+    
+    @GetMapping("crList2")
+    public String crList2() {
+    	return "seungwoo\\crList.html";
+    	
+    	//src\main\resources\static\seungwoo\crList.html
+    }	
+    
+    
+    
+    
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+	
+   
+}

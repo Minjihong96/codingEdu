@@ -1,0 +1,24 @@
+package web.com.springweb.a04_mvc.a02_service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import web.com.springweb.a04_mvc.a03_dao.A01_CustomerDao;
+import web.com.springweb.a04_mvc.a04_vo.Customers;
+
+@Service
+public class A01_CustomerService {
+	@Autowired(required = false)	// 자동으로 객체를 붙여주는 역할.(컨테이너에 해당 타입이 있으면 할당)
+	private A01_CustomerDao dao;
+	
+	public List<Customers> customerList(Customers sch){
+		if(sch.getCustomerName()==null) sch.setCustomerName("");
+		if(sch.getCustomerAddress()==null) sch.setCustomerAddress("");
+		sch.setCustomerName("%"+sch.getCustomerName()+"%");
+		sch.setCustomerAddress("%"+sch.getCustomerAddress()+"%");
+		
+		return dao.customerList(sch);
+	}
+}

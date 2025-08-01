@@ -1,0 +1,26 @@
+package web.com.springweb.jihong.jh_dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import web.com.springweb.jihong.jh_vo.ClassRecord;
+
+@Mapper
+public interface ClassRecordDao {
+	@Select("SELECT * FROM class_record WHERE CLASS_CONTENTS LIKE #{classContents}")
+	List<ClassRecord> classRecordList(ClassRecord sch);
+	
+	@Insert("INSERT INTO class_record (\r\n"
+			+ "    record_id, class_date, class_contents, subject,\r\n"
+			+ "    session_number, payment, etc\r\n"
+			+ ") VALUES (\r\n"
+			+ "    1, #{classDate}, #{classContents}, #{subject}"
+			+ "    #{remainClass}, #{payment}, #{etc}\r\n"
+			+ ");")
+	int insertClassRecord(ClassRecord ins);
+	
+	
+}

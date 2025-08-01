@@ -1,0 +1,40 @@
+package web.com.springweb.a04_mvc.a01_controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import web.com.springweb.a04_mvc.a02_service.A01_CustomerService;
+import web.com.springweb.a04_mvc.a04_vo.Customers;
+
+@Controller
+public class A01_CustomerController {
+	@Autowired(required = false)
+	private A01_CustomerService service;
+	
+	// http://localhost:7070/customerList
+	@RequestMapping("customerList")
+	public String customerList(Customers sch, Model d) {
+		// 1. 요청값 받기 : Customer sch
+		// 리스트형 데이터를 view단 전달..
+		// 2. 모델데이터 설정 customerList : DB 로딩
+		d.addAttribute("cuList", service.customerList(sch));
+		// "cuList"의 이름으로 웹(jsp)에 보내고 웹에서 cuList로 값을 받는다.
+		// 3. view단 호출
+		return "WEB-INF\\views\\a04_mvc\\a01_customerList.jsp";
+	}
+	
+	// http://localhost:7070/customerInsert
+	@RequestMapping("customerInsert")
+	public String customerInsert() {
+		return "WEB-INF\\views\\a04_mvc\\a02_customerInsert.jsp"; 
+	}
+	
+	// http://localhost:7070/customerDetail
+	@RequestMapping("customerDetail")
+	public String customerDetail() {
+		return "WEB-INF\\views\\a04_mvc\\a03_customerDetail.jsp"; 
+	}
+	
+}

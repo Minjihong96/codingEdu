@@ -1,0 +1,19 @@
+package web.com.springweb.seungwoo;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class A01_StartController {
+	// http://localhost:7070/start1
+	@RequestMapping("park")
+	public String start() {	// 요청값
+		// 모델 데이터 설정
+		
+		// view 단 호출
+		return "WEB-INF\\views\\gichan\\index.jsp";
+	}
+
+
+}

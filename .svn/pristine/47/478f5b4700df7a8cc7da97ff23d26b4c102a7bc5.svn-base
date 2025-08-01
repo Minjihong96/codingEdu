@@ -1,0 +1,26 @@
+package web.com.springweb.gichan.gi02_service;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import web.com.springweb.gichan.gi03_dao.Join_MembershipDao;
+import web.com.springweb.gichan.gi04_vo.JoinMem;
+
+@Service
+public class Join_MembershipService {
+	@Autowired(required = false)
+	private Join_MembershipDao dao;
+	
+	public String insertJoinMem(JoinMem ins) {
+		return dao.insertJoinMem(ins)>0?"등록성공":"등록실패";
+	}
+	
+	public boolean checkId(String memId) {
+	    return dao.checkId(memId) == 0;  // 중복이 없으면 true (가입 가능)
+	}
+	
+	public JoinMem selectMember(JoinMem login) {
+		return dao.selectMember(login);
+	}
+}

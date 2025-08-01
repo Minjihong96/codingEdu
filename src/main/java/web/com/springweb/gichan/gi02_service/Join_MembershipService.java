@@ -1,0 +1,70 @@
+package web.com.springweb.gichan.gi02_service;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import web.com.springweb.gichan.gi03_dao.Join_MembershipDao;
+import web.com.springweb.gichan.gi04_vo.Enrollments;
+import web.com.springweb.gichan.gi04_vo.JoinMem;
+import web.com.springweb.gichan.gi04_vo.Materials;
+
+@Service
+public class Join_MembershipService {
+	@Autowired(required = false)
+	private Join_MembershipDao dao;
+	
+	public String insertJoinMem(JoinMem ins) {
+		return dao.insertJoinMem(ins)>0?"등록성공":"등록실패";
+	}
+	
+	public boolean checkId(String memId) {
+	    return dao.checkId(memId) == 0;  // 중복이 없으면 true (가입 가능)
+	}
+	
+	public JoinMem selectMember(JoinMem login) {
+		return dao.selectMember(login);
+	}
+	
+	// 조회 버튼 누르면 아이디값이 가서 상세페이지
+	public JoinMem memberById(int memPird) {
+		return dao.memberById(memPird);
+	}
+	
+	// 회원정보리스트(선생님이랑 관리자 페이지로 연결되게 하기)
+	public List<JoinMem> getMemberList(JoinMem sch) {
+		if(sch.getMemName()==null) sch.setMemName("");
+		if(sch.getMemId()==null) sch.setMemId("");
+		// "%" + get XXX "%"
+		sch.setMemName("%"+sch.getMemName()+"%");
+		sch.setMemId("%"+sch.getMemId()+"%");
+	
+		return dao.getMemberList(sch);
+	}
+	
+	// 회원정보 수정
+	public String updateMem(JoinMem upt) {
+		return dao.updateMem(upt)>0?"수정성공":"수정실패";
+	}
+	// 회원정보 삭제
+	public String deleteMem(JoinMem del) {
+		return dao.deleteMem(del)>0?"삭제성공":"삭제성공";
+	}
+	// 강의 목록 전채 리스트
+	public List<Materials> getMaterialList(Materials sch) {
+		if(sch.getTitle()==null) sch.setTitle("");
+		sch.setTitle("%"+sch.getTitle()+"%");
+		return dao.getMaterialList(sch);
+	}
+	// 클릭시 강의 목록 가져오기
+	public Materials matById(int materialId) {
+		return dao.matById(materialId);
+	}
+	// 버튼으로 넘길 수강 신청 확인
+	public String insertEnr(Enrollments ins) {
+		return dao.insertEnr(ins)>0?"등록성공":"등록실패";
+	}
+	
+}

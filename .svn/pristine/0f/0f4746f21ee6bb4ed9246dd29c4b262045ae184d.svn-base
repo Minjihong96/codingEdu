@@ -1,0 +1,98 @@
+SELECT * FROM counsel_request;
+
+/*
+	@Update("UPDATE CUSTOMERS\r\n"
+			+ "	SET CUSTOMER_NAME = #{customerName},\r\n"
+			+ "		CUSTOMER_EMAIL = #{customerEmail},\r\n"
+			+ "		CUSTOMER_PHONE = #{customerPhone},\r\n"
+			+ "		CUSTOMER_ADDRESS = #{customerAddress}\r\n"
+			+ "	WHERE CUSTOMER_ID = #{customerId}")
+	int updateCustomer(Customers upt);
+	
+	@Delete("DELETE FROM CUSTOMERS WHERE CUSTOMER_ID = #{customerId}")
+	int deleteCustomer(Customers del);
+*/
+
+SELECT * FROM JOIN_MEMBERSHIP;
+UPDATE JOIN_MEMBERSHIP
+	SET MEM_PWD = 'zxczxc1234!!',
+		MEM_NAME = '김명철',
+		MEM_PHONE = '010-78941599',
+		MEM_EMAIL = 'asdqwe123@gmail.com',
+		MEM_ADDRESS = '경기도 성남시 분당구',
+		MEM_BIRTHDAY = TO_DATE('1995-07-04','yyyy-mm-dd'),
+		ACCOUNT_TYPE = 'student'
+	WHERE ACCOUNT_TYPE = 'qwe34566';
+/*
+	@Update("UPDATE JOIN_MEMBERSHIP\r\n"
+			+ "	SET MEM_PWD = #{memPwd},\r\n"
+			+ "		MEM_NAME = #{memName},\r\n"
+			+ "		MEM_PHONE = #{memPhone},\r\n"
+			+ "		MEM_EMAIL = #{memEmail},\r\n"
+			+ "		MEM_ADDRESS = #{memAddress},\r\n"
+			+ "		MEM_BIRTHDAY = #{memBirthday},\r\n"
+			+ "		ACCOUNT_TYPE = #{accountType}\r\n"
+			+ "	WHERE MEM_ID = #{memId}")
+	int updateMem(JoinMem upt);
+	
+	@Delete("DELETE FROM JOIN_MEMBERSHIP WHERE MEM_ID = #{memId}")
+	int deleteMem(JoinMem del);
+*/
+
+CREATE TABLE JOIN_MEMBERSHIP (
+	MEM_PRID        NUMBER(8,0) PRIMARY KEY,	-- 회원 고유번호
+    MEM_ID          VARCHAR2(50) NOT NULL UNIQUE,	-- 회원 아이디
+    MEM_PWD         VARCHAR2(50) NOT NULL,	-- 회원 비밀번호
+    MEM_NAME		VARCHAR2(50) NOT NULL,	-- 회원 이름
+    MEM_PHONE       VARCHAR2(50) NOT NULL,	-- 회원 전화번호
+    MEM_EMAIL       VARCHAR2(100) NOT NULL, -- 회원 이메일
+    MEM_ADDRESS     VARCHAR2(100) NOT NULL, -- 회원 주소
+    MEM_BIRTHDAY    DATE NOT NULL,			-- 생년월일
+    ACCOUNT_TYPE    VARCHAR2(20) DEFAULT 'student' CHECK (ACCOUNT_TYPE IN ('admin', 'student', 'teacher', 'etc')),
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 교육자료 테이블
+CREATE TABLE MATERIALS (
+  material_id   NUMBER PRIMARY KEY,
+  title         VARCHAR2(200),
+  description   VARCHAR2(1000),
+  file_path     VARCHAR2(500), -- 실제 파일 경로
+  upload_date   DATE DEFAULT SYSDATE,
+  teacher_id    VARCHAR2(30) REFERENCES JOIN_MEMBERSHIP(MEM_PRID)
+);
+-- 강의 신청 폼
+CREATE TABLE ENROLLMENTS (
+  enrollment_id   NUMBER PRIMARY KEY,
+  user_id         VARCHAR2(30) REFERENCES JOIN_MEMBERSHIP(mem_prid),
+  material_id     NUMBER REFERENCES MATERIALS(material_id),
+  enroll_date     DATE DEFAULT SYSDATE,
+  status          VARCHAR2(20) DEFAULT 'enrolled' -- 예: enrolled, canceled, completed
+);
+-- 퀴즈/과제 테이블 (자료와 연계)
+CREATE TABLE ASSIGNMENTS (
+  assignment_id   NUMBER PRIMARY KEY,
+  material_id     NUMBER REFERENCES MATERIALS(material_id),
+  title           VARCHAR2(200),
+  content         CLOB,
+  due_date        DATE
+);
+-- 제출 점수 관리 테이블
+CREATE TABLE SUBMISSIONS (
+  submission_id   NUMBER PRIMARY KEY,
+  assignment_id   NUMBER REFERENCES ASSIGNMENTS(assignment_id),
+  user_id         VARCHAR2(30) REFERENCES JOIN_MEMBERSHIP(MEM_PRID),
+  content         CLOB,
+  submit_date     DATE,
+  score           NUMBER
+);
+-- 진도 관리 테이블
+CREATE TABLE PROGRESS (
+  progress_id   NUMBER PRIMARY KEY,
+  user_id       VARCHAR2(30) REFERENCES JOIN_MEMBERSHIP(MEM_PRID),
+  material_id   NUMBER REFERENCES MATERIALS(material_id),
+  status        VARCHAR2(20), -- NOT_STARTED / IN_PROGRESS / COMPLETED
+  last_access   DATE
+);
+

@@ -1,0 +1,25 @@
+DROP TABLE class_record;
+
+CREATE TABLE class_record (
+    RECORD_ID       NUMBER PRIMARY KEY,             -- 기록아이디 (기본키)
+    MEM_PRID        NUMBER(8,0) NOT NULL UNIQUE,    -- 회원아이디 (학생 ID, 외래키 가능)
+    CLASS_DATE      DATE NOT NULL,                  -- 수업날짜
+    CLASS_CONTENTS   VARCHAR2(100) NOT NULL,         -- 수업내용
+    SUBJECT         VARCHAR2(100),                  -- 과제
+    SESSION_NUMBER  NUMBER NOT NULL,                -- 잔여수업회차
+    PAYMENT         NUMBER,                         -- 결제
+    ETC             VARCHAR2(100)                   -- 기타
+);
+COMMIT;
+SELECT * FROM class_record;
+-- 예시 1
+
+INSERT INTO class_record (
+    record_id, MEM_PRID, class_date, class_contents, subject,
+    SESSION_NUMBER, payment, etc
+) VALUES (
+    1, 1001, TO_DATE('2025-06-01', 'YYYY-MM-DD'), '문법 복습 및 작문 연습', '작문 과제 제출',
+    5, 50000, '온라인 수업'
+);
+
+SELECT * FROM class_record WHERE MEM_PRID = 1001;

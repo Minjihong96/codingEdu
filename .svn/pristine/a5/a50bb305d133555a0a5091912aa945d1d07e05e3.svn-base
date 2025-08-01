@@ -1,0 +1,20 @@
+package web.com.springweb.jihong.jh_dao;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+
+import web.com.springweb.jihong.jh_vo.ClassRecord;
+
+@Mapper
+public interface ClassRecordDao {
+	@Insert("INSERT INTO class_record (\r\n"
+			+ "    record_id, class_date, class_contents, subject,\r\n"
+			+ "    session_number, payment, etc\r\n"
+			+ ") VALUES (\r\n"
+			+ "    1, #{classDate}, #{classContents}, #{subject}"
+			+ "    #{remainClass}, #{payment}, #{etc}\r\n"
+			+ ");")
+	int insertClassRecord(ClassRecord ins);
+	
+	
+}

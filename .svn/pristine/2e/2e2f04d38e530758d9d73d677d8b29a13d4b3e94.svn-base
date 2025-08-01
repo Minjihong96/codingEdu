@@ -1,0 +1,45 @@
+package web.com.springweb.gichan.gi01_controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import web.com.springweb.gichan.gi02_service.Join_MembershipService;
+import web.com.springweb.gichan.gi04_vo.JoinMem;
+
+@Controller
+public class Join_MembershipController {
+	@Autowired(required = false)
+	private Join_MembershipService service;
+	
+	// http://localhost:7070/main
+	@RequestMapping("main")
+	public String main() {
+		return "\\WEB-INF\\views\\gichan\\main.jsp";
+	}
+	
+	// http://localhost:7070/insertMem
+	@RequestMapping("insertMem")
+	public String joinMemInsertPost(JoinMem ins, Model d) {
+	    if (ins.getMemId() != null) {
+	        String result = service.insertJoinMem(ins);
+	        if ("등록성공".equals(result)) {
+	        	return "redirect:main"; // 회원가입 성공 시 main.jsp로 이동
+	        } else {
+	            d.addAttribute("msg", "회원가입 실패했습니다.");
+	            return "\\WEB-INF\\views\\gichan\\join.jsp"; // 실패 시 다시 join.jsp
+	        }
+	    }
+	    return "\\WEB-INF\\views\\gichan\\join.jsp";
+	}
+	
+	@RequestMapping("checkId")
+	@ResponseBody
+	public boolean checkId(String memId) {
+	    return service.checkId(memId);
+	}
+	
+}

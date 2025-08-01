@@ -1,0 +1,19 @@
+package web.com.springweb.myeoncheol;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+@Controller
+public class StartController {
+	
+	
+	
+	// http://localhost:7070/mcStart1
+	@RequestMapping("mcStart1")
+	public String mcStart1() {	// 요청값
+		// 모델 데이터 설정
+		
+		// view 단 호출
+		return "WEB-INF\\views\\myoungcheol\\index1.jsp";
+	}
+
+}
